@@ -12,9 +12,9 @@
         <td><a href=""></a></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td><a href=""></a></td>
+        <td>Suleiman Assyl</td>
+        <td>asuleyman2403</td>
+        <td><a href="https://github.com/asuleyman2403/system-programming">asuleyman2403</a></td>
  	</tr>					
     <tr>
         <td>Mussayev Askar</td>
