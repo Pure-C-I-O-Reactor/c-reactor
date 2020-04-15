@@ -92,20 +92,6 @@ int reactor_register(const Reactor *reactor, int fd, uint32_t interest,
     return 0;
 }
 
-int reactor_deregister(const Reactor *reactor, int fd) {
-    REACTOR_CTL(reactor, EPOLL_CTL_DEL, fd, 0)
-    g_hash_table_remove(reactor->table, &fd);
-    return 0;
-}
-
-int reactor_reregister(const Reactor *reactor, int fd, uint32_t interest,
-                       Callback callback, void *callback_arg) {
-    REACTOR_CTL(reactor, EPOLL_CTL_MOD, fd, interest)
-    g_hash_table_insert(reactor->table, int_in_heap(fd),
-                        callback_data_new(callback, callback_arg));
-    return 0;
-}
-
 cleanup:
     free(events);
     return result;
