@@ -21,4 +21,9 @@
         <td>aseke7182</td>
         <td><a href="https://github.com/aseke7182/System-Programming">Aseke7182</a></td>
     </tr>
+    <tr>
+        <td>Utebaliyev Derbes</td>
+        <td>derbes</td>
+        <td><a href="https://github.com/derbess/System-Programming2020">derbess</a></td>
+    </tr>
 </table>
