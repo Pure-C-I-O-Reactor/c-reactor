@@ -84,6 +84,8 @@ int reactor_destroy(Reactor *reactor) {
         return -1;                                                             \
     }
 
+
+//Adding reactor into hash-table of sockets and event processers in system selector
 int reactor_register(const Reactor *reactor, int fd, uint32_t interest,
                      Callback callback, void *callback_arg) {
     REACTOR_CTL(reactor, EPOLL_CTL_ADD, fd, interest)
@@ -92,12 +94,13 @@ int reactor_register(const Reactor *reactor, int fd, uint32_t interest,
     return 0;
 }
 
+//Removing reactor and updating socket list and event processers in system selector and hash-table
 int reactor_deregister(const Reactor *reactor, int fd) {
     REACTOR_CTL(reactor, EPOLL_CTL_DEL, fd, 0)
     g_hash_table_remove(reactor->table, &fd);
     return 0;
 }
-
+//Modifiying the reactor in the hash-table
 int reactor_reregister(const Reactor *reactor, int fd, uint32_t interest,
                        Callback callback, void *callback_arg) {
     REACTOR_CTL(reactor, EPOLL_CTL_MOD, fd, interest)
