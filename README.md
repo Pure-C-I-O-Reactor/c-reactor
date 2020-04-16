@@ -7,9 +7,9 @@
         <th>Github</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td><a href=""></a></td>
+        <td>Kokpanbayev Beksultan</td>
+        <td>kbeksultan</td>
+        <td><a href="https://github.com/kbeksultan/SystemProgramming">kbeksultan</a></td>
     </tr>
     <tr>
         <td>Suleiman Assyl</td>
