@@ -1,8 +1,9 @@
 #include "reactor.h"
-#include "common.h"
 
 static Reactor *reactor;
 #pragma omp threadprivate(reactor)
+
+#include "common.h"
 
 int main(void) {
 #pragma omp parallel

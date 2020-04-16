@@ -1,7 +1,8 @@
 #include "reactor.h"
-#include "common.h"
 
 static Reactor *reactor;
+
+#include "common.h"
 
 int main(void) {
     SAFE_CALL((reactor = reactor_new()), NULL);
