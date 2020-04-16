@@ -28,6 +28,12 @@ Find argument reactor in the table, and destroy it, also remove from g_list by i
 4. int reactor_destroy(Reactor *reactor)
 ```
 
+After the I / O reactor intercepted the event with the fd descriptor, it calls the corresponding event handler, into which it passes fd, the bit mask of the generated events, and the user pointer to void.
+
+```
+5. int reactor_run(const Reactor *reactor, time_t timeout)
+```
+
 ### reactor.h
 
 
