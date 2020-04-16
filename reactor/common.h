@@ -143,7 +143,7 @@ static int new_server(bool reuse_port) {
 
     if (reuse_port) {
         SAFE_CALL(
-            setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &(int){1}, sizeof(int)),
+            setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)),
             -1);
     }
 
