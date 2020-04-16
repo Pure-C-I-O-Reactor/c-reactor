@@ -17,7 +17,7 @@
 #include "reactor.h"
 
 
-#define SERVER_PORT 18470
+#define SERVER_PORT 7182
 #define SERVER_IPV4 "127.0.0.1"
 #define SERVER_BACKLOG 1024
 #define SERVER_TIMEOUT_MILLIS 1000 * 60
@@ -123,8 +123,7 @@ static void on_recv(void *arg, int fd, uint32_t events) {
 
 static void on_send(void *arg, int fd, uint32_t events) {
     const char *content = "<img "
-                          "src=\"https://habrastorage.org/webt/oh/wl/23/"
-                          "ohwl23va3b-dioerobq_mbx4xaw.jpeg\">";
+                          "src=\"https://specials-images.forbesimg.com/imageserve/5d35eacaf1176b0008974b54/960x0.jpg?cropX1=790&cropX2=5350&cropY1=784&cropY2=3349\">";
     char response[1024];
     sprintf(response,
             "HTTP/1.1 200 OK" CRLF "Content-Length: %zd" CRLF "Content-Type: "
