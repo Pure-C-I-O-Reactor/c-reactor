@@ -16,6 +16,7 @@
 
 #include "reactor.h"
 
+//************************************************************
 
 #define SERVER_PORT 18470
 #define SERVER_IPV4 "127.0.0.1"
@@ -28,6 +29,7 @@
 #define DOUBLE_CRLF CRLF CRLF
 #define DOUBLE_CRLF_LEN strlen(DOUBLE_CRLF)
 
+//************************************************************
 
 #define SAFE_CALL(call, error)                                                 \
     do {                                                                       \
@@ -36,18 +38,44 @@
         }                                                                      \
     } while (false)
 
+//************************************************************
+
+/*
+ * Обработчик событий, который вызовется после того, как сокет будет
+ * готов принять новое соединение.
+ */
 static void on_accept(void *arg, int fd, uint32_t events);
 
+/*
+ * Обработчик событий, который вызовется после того, как сокет будет
+ * готов отправить HTTP ответ.
+ */
 static void on_send(void *arg, int fd, uint32_t events);
 
+/*
+ * Обработчик событий, который вызовется после того, как сокет будет
+ * готов принять часть HTTP запроса.
+ */
 static void on_recv(void *arg, int fd, uint32_t events);
 
+/*
+ * Переводит входящее соединение в неблокирующий режим.
+ */
 static void set_nonblocking(int fd);
 
+/*
+ * Печатает переданные аргументы в stderr и выходит из процесса с
+ * кодом `EXIT_FAILURE`.
+ */
 static noreturn void fail(const char *format, ...);
 
+/*
+ * Возвращает файловый дескриптор сокета, способного принимать новые
+ * TCP соединения.
+ */
 static int new_server(bool reuse_port);
 
+//************************************************************
 
 static noreturn void fail(const char *format, ...) {
     va_list args;
@@ -57,6 +85,8 @@ static noreturn void fail(const char *format, ...) {
     fprintf(stderr, ": %s\n", strerror(errno));
     exit(EXIT_FAILURE);
 }
+
+//************************************************************
 
 typedef struct {
     char data[REQUEST_BUFFER_CAPACITY];
@@ -79,11 +109,15 @@ static bool request_buffer_is_complete(RequestBuffer *buffer) {
 
 static void request_buffer_clear(RequestBuffer *buffer) { buffer->size = 0; }
 
+//************************************************************
+
 static void set_nonblocking(int fd) {
     int flags;
     SAFE_CALL((flags = fcntl(fd, F_GETFL, 0)), -1);
     SAFE_CALL(fcntl(fd, F_SETFL, flags | O_NONBLOCK), -1);
 }
+
+//************************************************************
 
 static void on_accept(void *arg, int fd, uint32_t events) {
     int incoming_conn;
@@ -97,11 +131,13 @@ static void on_accept(void *arg, int fd, uint32_t events) {
 static void on_recv(void *arg, int fd, uint32_t events) {
     RequestBuffer *buffer = arg;
 
+    // Принимаем входные данные до тех пор, что recv возвратит 0 или ошибку
     ssize_t nread;
     while ((nread = recv(fd, buffer->data + buffer->size,
                          REQUEST_BUFFER_CAPACITY - buffer->size, 0)) > 0)
         buffer->size += nread;
 
+    // Клиент оборвал соединение
     if (nread == 0) {
         SAFE_CALL(reactor_deregister(reactor, fd), -1);
         SAFE_CALL(close(fd), -1);
@@ -109,11 +145,15 @@ static void on_recv(void *arg, int fd, uint32_t events) {
         return;
     }
 
+    // read вернул ошибку, отличную от ошибки, при которой вызов заблокирует
+    // поток
     if (errno != EAGAIN && errno != EWOULDBLOCK) {
         request_buffer_destroy(buffer);
         fail("read");
     }
 
+    // Получен полный HTTP запрос от клиента. Теперь регистрируем обработчика
+    // событий для отправки данных
     if (request_buffer_is_complete(buffer)) {
         request_buffer_clear(buffer);
         SAFE_CALL(reactor_reregister(reactor, fd, EPOLLOUT, on_send, buffer),
@@ -135,6 +175,7 @@ static void on_send(void *arg, int fd, uint32_t events) {
     SAFE_CALL(reactor_reregister(reactor, fd, EPOLLIN, on_recv, arg), -1);
 }
 
+//************************************************************
 
 static int new_server(bool reuse_port) {
     int fd;
