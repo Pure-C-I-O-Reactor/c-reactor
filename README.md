@@ -7,6 +7,11 @@
         <th>Github</th>
     </tr>
     <tr>
+        <td>Yerassyl Bakytnuruly</td>
+        <td>yeraassyl</td>
+        <td><a href="https://github.com/yeraassyl/"></a>yeraassyl</td>
+    </tr>
+    <tr>
         <td>Kokpanbayev Beksultan</td>
         <td>kbeksultan</td>
         <td><a href="https://github.com/kbeksultan/SystemProgramming">kbeksultan</a></td>
