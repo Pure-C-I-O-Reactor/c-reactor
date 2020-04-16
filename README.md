@@ -32,3 +32,17 @@
         <td><a href="https://github.com/derbess/System-Programming2020">derbess</a></td>
     </tr>
 </table>
+
+## Getting Started
+U need to install Glib
+```
+apt-get install glib2.0
+```
+
+## Usage
+```
+chmod a+x compile.sh
+./compile.sh
+```
+
+After compiling u should run either ```./http_server``` or ```./http_server_multithreaded```
