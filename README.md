@@ -9,7 +9,7 @@
     <tr>
         <td>Yerassyl Bakytnuruly</td>
         <td>yeraassyl</td>
-        <td><a href="https://github.com/yeraassyl/"></a>yeraassyl</td>
+        <td><a href="https://github.com/yeraassyl/">yeraassyl</a></td>
     </tr>
     <tr>
         <td>Kokpanbayev Beksultan</td>
