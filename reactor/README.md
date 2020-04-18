@@ -67,6 +67,30 @@ This function will give control to the calling if the allotted time has elapsed 
 ```
 5. int reactor_run(const Reactor *reactor, time_t timeout);
 ```
+### http_server.c
+
+Creating I/O Reactor by using reactor_new()
+```
+1. SAFE_CALL((reactor = reactor_new()), NULL);
+```
+Creating server socket and register it, new_server() take argument false, this function configures the socket with the SO_REUSEPORT option via setsockopt () to not use the same port in a multithreaded environment.
+
+```
+2. SAFE_CALL( reactor_register(reactor, new_server(false), EPOLLIN, on_accept, NULL), -1);
+```
+
+Running the Reactor using reactor_run()
+
+```
+3. SAFE_CALL(reactor_run(reactor, SERVER_TIMEOUT_MILLIS), -1);
+```
+
+Free up resources and exit the program
+
+```
+4.  SAFE_CALL(reactor_destroy(reactor), -1);
+```
+
 
 ### http_server_multithreaded.c
 
